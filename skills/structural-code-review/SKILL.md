@@ -53,14 +53,14 @@ Keep behavior and public contracts the same unless a defect makes a change neces
 
 ### File and function size
 
-Use 400 source lines as the point where you examine the structure of a file.
-Do not count blank lines, comments, machine-written files, lockfiles, or fixtures.
-Count tests apart from production code.
-A change that takes a file over 400 lines is a High result unless the author gives a structural cause.
-A change that adds lines to a file over 800 lines is a Critical result unless the author divides the file first.
-A function over 60 lines, or with more than three levels of nested conditions, is a Medium result.
+- Use 400 source lines as the point where you examine the structure of a file.
+- Do not count blank lines, comments, machine-written files, lockfiles, or fixtures.
+- Count tests apart from production code.
+- A change that takes a file over 400 lines is a High result unless the author gives a structural cause.
+- A change that adds lines to a file over 800 lines is a Critical result unless the author divides the file first.
+- A function over 60 lines, or with more than three levels of nested conditions, is a Medium result.
 
-Do not divide a deep module only to decrease its line count.
+**Do not** divide a deep module only to decrease its line count.
 For a size result, show the responsibilities that change for different causes.
 Show the boundary that you recommend for the division.
 
