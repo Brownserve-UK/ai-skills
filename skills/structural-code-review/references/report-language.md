@@ -6,7 +6,7 @@ A report in STE is short, direct, and hard to misread.
 It also sounds fair, because STE has no room for sarcasm or vague hedges.
 
 The controlling reference is ASD-STE100 Issue 8 (2021). Issue 9 (2025) has the same rules for this use.
-Run `python3 scripts/check_review_language.py <report>` on the report. Correct each error.
+Run `python3 <this skill's directory>/scripts/check_review_language.py <report>` on the report. Correct each error.
 If the `asd-ste100` skill is available, use it in strict mode as a second check.
 Do not treat a successful script run as proof of full compliance. The script tests only the rules that a script can test.
 

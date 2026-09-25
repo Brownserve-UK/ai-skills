@@ -1,10 +1,10 @@
 ---
 name: structural-code-review
 description: >-
-  Strict review of a code change for design quality, structure, and defects.
-  Use for a code quality review, a design review, a maintainability review,
-  or a code quality audit of a branch, pull request, or diff. Reports only
-  Critical, High, and Medium results. Writes the report in ASD-STE100.
+  Strict review of a code change for structure and design quality, and defects. Use for a code quality review, a design review, a maintainability
+  review, or a code quality audit of a branch, pull request, or diff. Reports
+  only Critical, High, and Medium results. Writes the report in ASD-STE100.
+disable-model-invocation: true
 ---
 
 # Structural Code Review
@@ -28,26 +28,7 @@ Be thorough and rigorous. Check each finding twice before you report it.
 - Report a defect from before the change only when the change increases its effect, or when the user wants a full audit.
 - Do not change source files. Do not send the report to other persons.
 
-## 2. Examine the behavior
-
-Follow each changed path from input to output. Include failure paths and recovery paths.
-
-- Check input validation, access control, and the protection of secrets.
-- Check the data contract at each system boundary. Find invalid states that the code accepts.
-- Check error paths for errors that the code does not return or record.
-- Find fallback values and success results that hide a defect.
-- Check resource ownership, cleanup, cancellation, retries, and limits on work.
-- Check related writes for a state that stays half-applied after a failure. Recommend one transaction, or recovery when one transaction is not possible.
-- Check concurrent operations for races, deadlocks, and incorrect sequence.
-- Check compatibility, data migrations, and recovery after a release failure.
-- Compare each API call and dependency with the version that the project uses.
-- Compare the tests with the necessary behavior. Find assertions that pass when the behavior is incorrect.
-
-Use the project checks that can show a defect.
-Make a small reproduction when a result needs one.
-Do not run commands that change a production system.
-
-## 3. Examine the design
+## 2. Examine the design
 
 Find the smaller set of concepts that gives the same behavior.
 When a local change cannot remove the cause, recommend the different structure.
@@ -83,6 +64,25 @@ Do not divide a deep module only to decrease its line count.
 For a size result, show the responsibilities that change for different causes.
 Show the boundary that you recommend for the division.
 
+## 3. Examine the behavior
+
+Follow each changed path from input to output. Include failure paths and recovery paths.
+
+- Check input validation, access control, and the protection of secrets.
+- Check the data contract at each system boundary. Find invalid states that the code accepts.
+- Check error paths for errors that the code does not return or record.
+- Find fallback values and success results that hide a defect.
+- Check resource ownership, cleanup, cancellation, retries, and limits on work.
+- Check related writes for a state that stays half-applied after a failure. Recommend one transaction, or recovery when one transaction is not possible.
+- Check concurrent operations for races, deadlocks, and incorrect sequence.
+- Check compatibility, data migrations, and recovery after a release failure.
+- Compare each API call and dependency with the version that the project uses.
+- Compare the tests with the necessary behavior. Find assertions that pass when the behavior is incorrect.
+
+Use the project checks that can show a defect.
+Make a small reproduction when a result needs one.
+Do not run commands that change a production system.
+
 ## 4. Keep only necessary results
 
 Keep a result only when all of these are true:
@@ -111,7 +111,7 @@ Use High or Critical for a design result only when the code shows the effect.
 ## 5. Write the report
 
 Write all report text in ASD-STE100. Obey [report language](references/report-language.md).
-Run `python3 scripts/check_review_language.py <report>` and correct each error.
+Run `python3 <this skill's directory>/scripts/check_review_language.py <draft>` and correct each error.
 Do not change code identifiers, paths, commands, or quoted output.
 
 Write about the code and its effect. Do not write about the author.
@@ -125,7 +125,7 @@ Put results in this sequence: Critical, High, Medium. Do not add an empty level.
 Use this structure for each result:
 
 ```text
-### 🟠 High — <the effect in a few words>
+### 🟠 High: <the effect in a few words>
 Location: <path:line or a small range>
 
 <Condition, behavior, and effect.>
