@@ -147,4 +147,3 @@ Add Limits only for missing access, code that you did not examine, or assumption
 If there are no results, write this sentence:
 
 `The review found no Critical, High, or Medium results in the selected code.`
-Do not approve when the review is not complete.
