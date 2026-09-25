@@ -12,12 +12,15 @@ disable-model-invocation: true
 
 Perform a deep and thorough audit of the code quality from a selected change. Find a different structure or implementation that makes the code much better and keeps the behavior the same. Make the abstractions and the modularity better. Delete spaghetti code. Make the code shorter and easier to read.
 
-Be ambitious: before you accept the change as written, look for the structure that makes most of it unnecessary.
-If a clear path to a better implementation needs a restructure of part of the codebase, recommend it.
-The best result removes full branches, modes, helpers, or layers.
-A result that moves the same complexity to a different file is not sufficient.
+## Guiding Principles
 
-Be thorough and rigorous.
+- Be ambitious: before you accept the change as written, look for the structure that makes most of it unnecessary.
+- If a clear path to a better implementation needs a restructure of part of the codebase, recommend it.
+- The best result removes full branches, modes, helpers, or layers.
+- A result that moves the same complexity to a different file is not sufficient.
+- Correct behavior does not excuse a structural cost. A change that passes its tests and makes the code harder to change is a result.
+
+**Be thorough and be rigorous.**
 
 ## 1. Select the code
 
