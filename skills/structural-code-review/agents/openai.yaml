@@ -1,0 +1,10 @@
+interface:
+  display_name: Code Quality Review
+  short_description: Strict review of design, structure, and defects in a code change
+  default_prompt: Use $code-quality-review to examine the current branch against its merge base.
+policy:
+  products:
+    - codex
+    - chatgpt
+  # The review is strict and slow. The user starts it on purpose.
+  allow_implicit_invocation: false
