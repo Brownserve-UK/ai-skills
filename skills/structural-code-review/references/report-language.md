@@ -7,7 +7,6 @@ It also sounds fair, because STE has no room for sarcasm or vague hedges.
 
 The controlling reference is ASD-STE100 Issue 8 (2021). Issue 9 (2025) has the same rules for this use.
 Run `python3 <this skill's directory>/scripts/check_review_language.py <report>` on the report. Correct each error.
-If the `asd-ste100` skill is available, use it in strict mode as a second check.
 Do not treat a successful script run as proof of full compliance. The script tests only the rules that a script can test.
 
 ## Sentence rules
@@ -35,6 +34,7 @@ The vocabulary of software is a set of technical names. Examples: module, interf
 Also the names in the codebase (types, functions, files), and the names of languages and tools.
 Use them without change. Do not make new verbs from them (rule 1.7).
 Do not call an ordinary unapproved word a technical name only to keep it.
+Use each word with its usual meaning. Do not use metaphors, slang, or new words that you create.
 
 These labels are fixed in the report: Critical, High, Medium, Location, Check, Checks, Limits.
 Keep identifiers, paths, commands, and quoted output unchanged. Use STE for the text around them.
@@ -48,9 +48,7 @@ The script holds the full table. The most common replacements:
 | `should`, `could`, `would`, `may`, `might` | must, can, will |
 | `consider`, `suggest` | think about, recommend |
 | `ensure`, `provide`, `require` | make sure, give, must |
-| `reduce`, `improve`, `avoid` | decrease, make better, prevent |
 | `reason`, `why` | cause, what is the cause |
-| `simple`, `complex`, `complicated` | easy, not easy |
 | `however`, `therefore`, `instead` | but, as a result, as an alternative |
 | `wrong`, `fail`, `consequence` | incorrect, does not, effect |
 | `several`, `whole`, `amount` | some, full, quantity |
