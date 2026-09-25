@@ -126,13 +126,14 @@ Put results in this sequence: Critical, High, Medium. Do not add an empty level.
 Use this structure for each result:
 
 ```text
-### 🟠 High: <the effect in a few words>
-Location: <path:line or a small range>
+### 1. 🟠 High: <the effect in a few words>
+
+📍 Location: <path:line or a small range>
 
 <Condition, behavior, and effect.>
 <Correction, and what the code loses or gains.>
-Sketch: <for a structural result only: the types, signatures, or call site after the correction.>
-Check: <the test or inspection that shows the correction keeps the behavior.>
+📝 Sketch: <for a structural result only: the types, signatures, or call site after the correction.>
+🧪 Check: <the test or inspection that shows the correction keeps the behavior.>
 ```
 
 Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs. Keep a sketch to the lines that show the new shape.
