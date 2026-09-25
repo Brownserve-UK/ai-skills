@@ -52,6 +52,7 @@ The rules below are common forms of the problem, not a full list.
 - Find a module, class, or function with an interface that is almost as complex as its body. Recommend a deeper interface that hides the decision from callers.
 - Find a change that makes an existing interface wider: a new parameter, flag, export, or exception that callers must know. Recommend that the module absorbs the decision.
 - Find a wrapper, adapter, pass-through method, or pass-through variable that adds no contract, isolation, or behavior. Recommend its removal.
+- Find a refactor that moves concepts to a new place but does not remove them. Recommend a structure with fewer concepts, or the removal of the refactor. Count the concepts, not the files.
 - Find one design decision that two or more modules know: a rule, a format, a state check, or a sequence. Recommend one owner for the decision and its data. Count the same knowledge, not the same text.
 - Find code divided by the sequence of steps, where each step knows the same decision. Recommend a division by knowledge.
 - Find a new condition, flag, or mode in a shared flow. This is a design defect, not a style problem. Recommend a state model, a type, or a policy object that removes the branches.
