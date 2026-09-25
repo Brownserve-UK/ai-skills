@@ -12,6 +12,7 @@ It reports two kinds of result:
 
 Rules the script tests (rule numbers refer to ASD-STE100 Issue 8, Part 1):
     ERROR  no semicolons                                  (8.1)
+    ERROR  no em dashes                                   (house style)
     ERROR  no contractions                                (4.2)
     ERROR  no sentence with more than 25 words            (5.1, 6.3)
     ERROR  no unapproved word from the table below        (1.1, 1.2, 9.2)
@@ -175,6 +176,8 @@ def check(text, source):
             preview = s[:70].replace("\n", " ")
             if ";" in s:
                 errors.append((source, line_no, f"semicolon: '{preview}'"))
+            if "—" in s:
+                errors.append((source, line_no, f"em dash: '{preview}'"))
             for m in CONTRACTIONS.finditer(s):
                 errors.append((source, line_no, f"contraction '{m.group(0)}': '{preview}'"))
             if n > 25:
