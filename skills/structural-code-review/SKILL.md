@@ -1,9 +1,10 @@
 ---
 name: structural-code-review
 description: >-
-  Strict review of a code change for structure and design quality, and defects. Use for a code quality review, a design review, a maintainability
-  review, or a code quality audit of a branch, pull request, or diff. Reports
-  only Critical, High, and Medium results. Writes the report in ASD-STE100.
+  Strict review of a code change for structure and design quality. Use for a
+  code quality review, a design review, a maintainability review, or a code
+  quality audit of a branch, pull request, or diff. Reports only Critical,
+  High, and Medium results. Writes the report in ASD-STE100.
 disable-model-invocation: true
 ---
 
@@ -25,7 +26,8 @@ Be thorough and rigorous. Check each finding twice before you report it.
 - Read the project instructions, build commands, and test commands.
 - Read each changed file in full, and the callers and tests of each changed function. A diff alone hides structure.
 - Read the applicable reference: [Rust](references/rust.md), [Android](references/android.md), [Terraform](references/terraform.md), [Puppet](references/puppet.md), or [TypeScript](references/typescript.md). For other languages, use the documents of the language for the project version.
-- Report a defect from before the change only when the change increases its effect, or when the user wants a full audit.
+- Report a problem from before the change only when the change makes it worse, or when the user wants a full audit.
+- Use the project build, type check, and lint to confirm the facts that a result depends on. Do not run commands that change a production system.
 - Do not change source files. Do not send the report to other persons.
 
 ## 2. Examine the design
@@ -33,23 +35,28 @@ Be thorough and rigorous. Check each finding twice before you report it.
 Find the smaller set of concepts that gives the same behavior.
 When a local change cannot remove the cause, recommend the different structure.
 
-- Recommend deep modules: much behavior behind a small interface. Callers must not know internal decisions.
-- Find a wrapper, adapter, or helper that adds no contract, isolation, or behavior. Recommend its removal. Keep a small adapter that protects a boundary or satisfies a framework contract.
-- Find the same rule or state check in more than two locations. Recommend one owner for the rule and its data.
+- Find a module, class, or function with an interface that is almost as complex as its body. Recommend a deeper interface that hides the decision from callers.
+- Find a change that makes an existing interface wider: a new parameter, flag, export, or exception that callers must know. Recommend that the module absorbs the decision.
+- Find a wrapper, adapter, pass-through method, or pass-through variable that adds no contract, isolation, or behavior. Recommend its removal.
+- Find one design decision that two or more modules know: a rule, a format, a state check, or a sequence. Recommend one owner for the decision and its data. Count the same knowledge, not the same text.
+- Find code divided by the sequence of steps, where each step knows the same decision. Recommend a division by knowledge.
 - Find a new condition, flag, or mode in a shared flow. This is a design defect, not a style problem. Recommend a state model, a type, or a policy object that removes the branches.
 - Find feature logic in a shared path, or a helper that copies one the codebase already has. Recommend the canonical owner.
-- Find a cast, an optional field, a nullable mode, or an `any` that hides an unclear invariant. Recommend a type that makes the invariant explicit.
+- Find a cast, an optional field, a nullable mode, an `any`, or a silent fallback that hides an unclear invariant. Recommend a type that makes the invariant explicit.
 - Find generic mechanisms, reflection, or string-typed dispatch that hides an easy data shape. Recommend the direct version.
-- Find independent steps in sequence. Recommend parallel steps only when the parallel version is also clearer and has limits on work.
-- Do not unite code that only looks the same. Two pieces that change for different causes are two pieces.
-- Reject extension points, configuration modes, and generality that no requirement needs at this time.
+- Find an interface shaped around the special case of one caller. Recommend a somewhat general-purpose interface when it is simpler for all callers.
+- Find extension points and configuration modes that no caller uses. Recommend their removal.
+- Find independent steps in sequence where the parallel version is clearer. Recommend the parallel version.
+- Find related updates that can leave state half-applied after a failure. Recommend one transaction, or one owner for the update.
 - Examine machine-written code with the same standard as other code.
+
+Each rule tells you what to find. When the code matches a rule, report the result. The author gives the cause for an exception.
 
 For a design result, show the rule that occurs again or the decision that callers know.
 Show the cost at this time with code locations.
 Give the owner and interface that you recommend.
 Give the branches, concepts, or dependencies that the change removes.
-Keep behavior and public contracts the same unless a defect makes a change necessary.
+Keep behavior and public contracts the same.
 
 ### File and function size
 
@@ -58,57 +65,37 @@ Keep behavior and public contracts the same unless a defect makes a change neces
 - Count tests apart from production code.
 - A change that takes a file over 400 lines is a High result unless the author gives a structural cause.
 - A change that takes a file over 800 lines is a Critical result unless the author divides the file first.
-- A changed function over 60 lines, or with more than three levels of nesting, is a Medium result unless it stays flat and has one responsibility.
+- Use 60 lines as the point where you examine the structure of a changed function. A changed function that mixes responsibilities, or has more than three levels of nesting, is a Medium result.
 
-**Do not** divide a deep module only to decrease its line count.
 For a size result, show the responsibilities that change for different causes.
 Show the boundary that you recommend for the division.
 
-## 3. Examine the behavior
-
-Follow each changed path from input to output. Include failure paths and recovery paths.
-
-- Check input validation, access control, and the protection of secrets.
-- Check the data contract at each system boundary. Find invalid states that the code accepts.
-- Check error paths for errors that the code does not return or record.
-- Find fallback values and success results that hide a defect.
-- Check resource ownership, cleanup, cancellation, retries, and limits on work.
-- Check related writes for a state that stays half-applied after a failure. Recommend one transaction, or recovery when one transaction is not possible.
-- Check concurrent operations for races, deadlocks, and incorrect sequence.
-- Check compatibility, data migrations, and recovery after a release failure.
-- Compare each API call and dependency with the version that the project uses.
-- Compare the tests with the necessary behavior. Find assertions that pass when the behavior is incorrect.
-
-Use the project checks that can show a defect.
-Make a small reproduction when a result needs one.
-Do not run commands that change a production system.
-
-## 4. Keep only necessary results
+## 3. Keep only necessary results
 
 Keep a result only when all of these are true:
 
 - The result is about the selected code.
 - The code, or a check that you ran, shows that the result is correct.
-- A specified condition causes a defect or a large cost to change.
+- The structure causes a large cost to change the code.
 - The correction removes or decreases that cause.
 - The result is Medium or above.
 
 Put results with the same cause together. Keep them apart when the corrections are different.
-Do not report format, names, or performance without a related defect or measure.
+Do not report format or performance. Report a name only when it hides a design problem.
 Do not add results to get a specified number of results.
 Do not use Medium for a small problem only to include it.
 If information is missing, tell the user in Limits what is necessary to complete the review.
 
 | Level | Effect |
 | --- | --- |
-| 🔴 Critical | A path to system compromise, service failure for many users, or data loss without recovery. Also a structural regression that each subsequent change pays for. Examples: a change that takes a file over 800 lines, a new mode in a shared flow, a missed structure that removes most of the change. Correct before anything else. |
-| 🟠 High | A path to incorrect important behavior, or a security control that does not operate. Also a structural cost that the author must correct or justify before merge. Examples: a shallow wrapper, a copy of a canonical helper, a hidden invariant, a file over 400 lines. |
-| 🟡 Medium | A defect with a small effect. Also a design cost that the author corrects in this change or records as a task. Examples: a long function, the same check in three places, a test that reads internal state. |
+| 🔴 Critical | A structural regression that each subsequent change pays for. Examples: a change that takes a file over 800 lines, a new mode in a shared flow, a missed structure that removes most of the change. Correct before anything else. |
+| 🟠 High | A structural cost that the author must correct or justify before merge. Examples: a shallow wrapper, a copy of a canonical helper, a hidden invariant, a file over 400 lines. |
+| 🟡 Medium | A design cost that the author corrects in this change or records as a task. Examples: a function that mixes responsibilities, the same check in three places, a test that reads internal state. |
 
-Select the level from the effect and the number of users or systems it touches.
-Use High or Critical for a design result only when the code shows the effect.
+Select the level from the cost: how many subsequent changes pay for it, and how many modules it touches.
+Use High or Critical only when the code shows the effect.
 
-## 5. Write the report
+## 4. Write the report
 
 Write all report text in ASD-STE100. Obey [report language](references/report-language.md).
 Run `python3 <this skill's directory>/scripts/check_review_language.py <draft>` and correct each error.
@@ -116,8 +103,8 @@ Do not change code identifiers, paths, commands, or quoted output.
 
 Write about the code and its effect. Do not write about the author.
 Give the condition, the behavior, and the effect. Then give the correction and its cause.
-For a defect, give the correction as an instruction.
-For a design selection, give the alternatives, and end with the one that you recommend.
+When one correction is clear, give it as an instruction.
+When there are alternatives, give them, and end with the one that you recommend.
 
 When the author knows something that you do not, end the result with a sentence that the author must answer.
 
@@ -130,7 +117,7 @@ Location: <path:line or a small range>
 
 <Condition, behavior, and effect.>
 <Correction, and what the code loses or gains.>
-Check: <the test or inspection that shows the correction is correct.>
+Check: <the test or inspection that shows the correction keeps the behavior.>
 ```
 
 Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs.
