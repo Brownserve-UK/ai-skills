@@ -58,7 +58,7 @@ Keep behavior and public contracts the same unless a defect makes a change neces
 - Count tests apart from production code.
 - A change that takes a file over 400 lines is a High result unless the author gives a structural cause.
 - A change that adds lines to a file over 800 lines is a Critical result unless the author divides the file first.
-- A function over 60 lines, or with more than three levels of nested conditions, is a Medium result.
+- A changed function over 60 lines, or with more than three levels of nesting, is a Medium result unless it stays flat and has one responsibility.
 
 **Do not** divide a deep module only to decrease its line count.
 For a size result, show the responsibilities that change for different causes.
