@@ -17,7 +17,7 @@ If a clear path to a better implementation needs a restructure of part of the co
 The best result removes full branches, modes, helpers, or layers.
 A result that moves the same complexity to a different file is not sufficient.
 
-Be thorough and rigorous. Check each finding twice before you report it.
+Be thorough and rigorous.
 
 ## 1. Select the code
 
@@ -107,7 +107,7 @@ If information is missing, tell the user in Limits what is necessary to complete
 | 🟡 Medium | A design cost that the author corrects in this change or records as a task. Examples: a function that mixes responsibilities, the same check in three places, a test that reads internal state. |
 
 Select the level from the cost: how many subsequent changes pay for it, and how many modules it touches.
-Use High or Critical only when the code shows the effect.
+Use High or Critical only when the code shows the cost. For a structural result, the sketch shows what the correction removes.
 
 ## 4. Write the report
 
@@ -131,10 +131,11 @@ Location: <path:line or a small range>
 
 <Condition, behavior, and effect.>
 <Correction, and what the code loses or gains.>
+Sketch: <for a structural result only: the types, signatures, or call site after the correction.>
 Check: <the test or inspection that shows the correction keeps the behavior.>
 ```
 
-Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs.
+Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs. Keep a sketch to the lines that show the new shape.
 
 Before Checks, add one line for Smaller design: the design that you recommend, or the designs that you examined and the cause that each one is not simpler.
 End the report with one line for Checks: the checks that you ran and their results.
