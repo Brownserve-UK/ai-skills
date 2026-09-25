@@ -57,7 +57,7 @@ Keep behavior and public contracts the same unless a defect makes a change neces
 - Do not count blank lines, comments, machine-written files, lockfiles, or fixtures.
 - Count tests apart from production code.
 - A change that takes a file over 400 lines is a High result unless the author gives a structural cause.
-- A change that adds lines to a file over 800 lines is a Critical result unless the author divides the file first.
+- A change that takes a file over 800 lines is a Critical result unless the author divides the file first.
 - A changed function over 60 lines, or with more than three levels of nesting, is a Medium result unless it stays flat and has one responsibility.
 
 **Do not** divide a deep module only to decrease its line count.
@@ -101,7 +101,7 @@ If information is missing, tell the user in Limits what is necessary to complete
 
 | Level | Effect |
 | --- | --- |
-| 🔴 Critical | A path to system compromise, service failure for many users, or data loss without recovery. Also a structural regression that each subsequent change pays for. Examples: a file over 800 lines that becomes larger, a new mode in a shared flow, a missed structure that removes most of the change. Correct before anything else. |
+| 🔴 Critical | A path to system compromise, service failure for many users, or data loss without recovery. Also a structural regression that each subsequent change pays for. Examples: a change that takes a file over 800 lines, a new mode in a shared flow, a missed structure that removes most of the change. Correct before anything else. |
 | 🟠 High | A path to incorrect important behavior, or a security control that does not operate. Also a structural cost that the author must correct or justify before merge. Examples: a shallow wrapper, a copy of a canonical helper, a hidden invariant, a file over 400 lines. |
 | 🟡 Medium | A defect with a small effect. Also a design cost that the author corrects in this change or records as a task. Examples: a long function, the same check in three places, a test that reads internal state. |
 
