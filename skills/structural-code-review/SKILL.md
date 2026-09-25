@@ -32,8 +32,19 @@ Be thorough and rigorous. Check each finding twice before you report it.
 
 ## 2. Examine the design
 
-Find the smaller set of concepts that gives the same behavior.
+Your main job is to find the design that makes most of this change unnecessary.
+Kent Beck puts it as "make the change easy, then make the easy change". Look for the restructure that would have made this change small.
+
+Ask these questions about each meaningful part of the change:
+
+- Is there a restructure that would turn this change into a small one?
+- Could an existing abstraction absorb this with a small extension?
+- Would a different state model or data shape make these branches disappear?
+- Could the special case become the default flow, so that no exception is necessary?
+- Does this refactor delete concepts, or only move them to a different place?
+
 When a local change cannot remove the cause, recommend the different structure.
+The rules below are common forms of the problem, not a full list.
 
 - Find a module, class, or function with an interface that is almost as complex as its body. Recommend a deeper interface that hides the decision from callers.
 - Find a change that makes an existing interface wider: a new parameter, flag, export, or exception that callers must know. Recommend that the module absorbs the decision.
@@ -50,7 +61,7 @@ When a local change cannot remove the cause, recommend the different structure.
 - Find related updates that can leave state half-applied after a failure. Recommend one transaction, or one owner for the update.
 - Examine machine-written code with the same standard as other code.
 
-Each rule tells you what to find. When the code matches a rule, report the result. The author gives the cause for an exception.
+Report a match even when you think an exception applies. The author must give the cause for the exception.
 
 For a design result, show the rule that occurs again or the decision that callers know.
 Show the cost at this time with code locations.
@@ -79,6 +90,9 @@ Keep a result only when all of these are true:
 - The structure causes a large cost to change the code.
 - The correction removes or decreases that cause.
 - The result is Medium or above.
+
+These tests are strict for small results. For a structural result, the evidence is the smaller design: its shape, and the branches and concepts that it removes.
+Do not remove a structural result only because a build or a test cannot prove it.
 
 Put results with the same cause together. Keep them apart when the corrections are different.
 Do not report format or performance. Report a name only when it hides a design problem.
@@ -122,6 +136,7 @@ Check: <the test or inspection that shows the correction keeps the behavior.>
 
 Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs.
 
+Before Checks, add one line for Smaller design: the design that you recommend, or the designs that you examined and the cause that each one is not simpler.
 End the report with one line for Checks: the checks that you ran and their results.
 Add Limits only for missing access, code that you did not examine, or assumptions that you made.
 If there are no results, write this sentence:

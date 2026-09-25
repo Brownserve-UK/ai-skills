@@ -36,7 +36,7 @@ Use them without change. Do not make new verbs from them (rule 1.7).
 Do not call an ordinary unapproved word a technical name only to keep it.
 Use each word with its usual meaning. Do not use metaphors, slang, or new words that you create.
 
-These labels are fixed in the report: Critical, High, Medium, Location, Check, Checks, Limits.
+These labels are fixed in the report: Critical, High, Medium, Location, Check, Smaller design, Checks, Limits.
 Keep identifiers, paths, commands, and quoted output unchanged. Use STE for the text around them.
 
 ## Words to replace
