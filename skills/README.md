@@ -1,5 +1,10 @@
 # Skill overview
 
+## [init-brownserve-project-skills](init-brownserve-project-skills/SKILL.md)
+
+Writes `.agents/project.json`, the per-repo config that the project skills read to know where issues and design documents go.
+Asks what kind of repo it is, then works out the values or asks for them.
+
 ## [mock-up](mock-up/SKILL.md)
 
 Allows for spinning up interactive design mock-ups and prototypes before writing code.
