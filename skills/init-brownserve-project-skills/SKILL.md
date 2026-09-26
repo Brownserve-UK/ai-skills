@@ -78,9 +78,8 @@ Labels are managed by Terraform. Never create a label. If a label the user wants
 Every check is a hard failure. Stop and report the cause. There is no override.
 
 - `issues.repo` exists, is not archived, and has issues enabled.
-- Every entry in `default_labels` exists in `issues.repo`.
+- Where defined, every entry in `default_labels` exists in `issues.repo`.
 - If this repo is private, `docs.repo` is `design_documents` (private).
-- `docs.repo` exists (check with `gh repo view`). Do not require the local clone. It can be missing from this container.
 
 ### 5. Confirm
 
