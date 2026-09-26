@@ -1,0 +1,5 @@
+interface:
+  display_name: Mock Up
+  short_description: Allows for spinning up interactive design mock-ups and prototypes before writing code.
+policy:
+  allow_implicit_invocation: true
