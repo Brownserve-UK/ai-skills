@@ -28,6 +28,7 @@ Perform a deep and thorough audit of the code quality from a selected change. Fi
 - If you do not know the target branch, tell the user.
 - Read the project instructions, build commands, and test commands.
 - Read each changed file in full, and the callers and tests of each changed function. A diff alone hides structure.
+- Search the codebase for helpers and abstractions that already do the job of the new code.
 - Read the applicable reference: [Rust](references/rust.md), [Android](references/android.md), [Terraform](references/terraform.md), [Puppet](references/puppet.md), or [TypeScript](references/typescript.md). For other languages, use the documents of the language for the project version.
 - Report a problem from before the change only when the change makes it worse, or when the user wants a full audit.
 - Use the project build, type check, and lint to confirm the facts that a result depends on. Do not run commands that change a production system.
@@ -63,8 +64,7 @@ The rules below are common forms of the problem, not a full list.
 - Find extension points and configuration modes that no caller uses. Recommend their removal.
 - Find independent steps in sequence where the parallel version is clearer. Recommend the parallel version.
 - Find related updates that can leave state half-applied after a failure. Recommend one transaction, or one owner for the update.
-- Examine machine-written code with the same standard as other code.
-
+- Examine code from an AI agent with the same standard as other code.
 Report a match even when you think an exception applies. The author must give the cause for the exception.
 
 For a design result, show the rule that occurs again or the decision that callers know.
@@ -76,7 +76,7 @@ Keep behavior and public contracts the same.
 ### File and function size
 
 - Use 400 source lines as the point where you examine the structure of a file.
-- Do not count blank lines, comments, machine-written files, lockfiles, or fixtures.
+- Do not count blank lines, comments, generated files (codegen output), lockfiles, or fixtures.
 - Count tests apart from production code.
 - A change that takes a file over 400 lines is a High result unless the author gives a structural cause.
 - A change that takes a file over 800 lines is a Critical result unless the author divides the file first.
@@ -91,7 +91,7 @@ Keep a result only when all of these are true:
 
 - The result is about the selected code.
 - The code, or a check that you ran, shows that the result is correct.
-- The structure causes a large cost to change the code.
+- The structure causes a real cost to change the code.
 - The correction removes or decreases that cause.
 - The result is Medium or above.
 
@@ -140,7 +140,7 @@ Use this structure for each result:
 🧪 Check: <the test or inspection that shows the correction keeps the behavior.>
 ```
 
-Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs. Keep a sketch to the lines that show the new shape.
+Keep one cause for each result. Use short paragraphs. Quote only the code that the result needs. Keep a sketch to the lines that show the new shape. Put a sketch of more than one line in a fenced code block.
 
 Before Checks, add one line for Smaller design: the design that you recommend, or the designs that you examined and the cause that each one is not simpler.
 End the report with one line for Checks: the checks that you ran and their results.
