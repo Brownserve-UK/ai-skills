@@ -9,8 +9,6 @@ disable-model-invocation: true
 Write `.agents/project.json`: the config that the Brownserve project skills read to know where issues and design documents go.
 The skills do not work without this file, and they never guess its values. This skill is the only thing that writes it.
 
-Work out every value yourself. Present the result and ask the user to confirm. Ask the user for a value only when exploration cannot settle it.
-
 ## The config
 
 ```json
@@ -51,29 +49,29 @@ The design documents repos are cloned in the devcontainer at:
 ### 1. Explore
 
 - `git remote -v`: the owner and name of this repo.
-- `gh repo view <this repo> --json name,owner,visibility,hasIssuesEnabled`.
+- `gh repo view <this repo> --json visibility`: is this repo private?
 - `.agents/project.json`: does a config already exist? If so, read it.
 - `git check-ignore -q .agents/project.json`: is the config path gitignored?
 
-### 2. Classify the repo
+### 2. Ask the kind of repo
 
-| Signals | Kind | `issues.repo` | `docs.repo` | `project` |
+If the invocation text states the kind, use it and do not ask. Otherwise, ask the user which kind of repo this is: standard, closed source, or multi-repo. Do not suggest one.
+
+### 3. Get the values
+
+| Kind | `issues.repo` | `default_labels` | `docs.repo` | `project` |
 | --- | --- | --- | --- | --- |
-| Public, issues enabled | Standard | this repo | `design_documents_public` | repo name |
-| Private, issues disabled, `<repo>-issues` exists | Closed source | `<repo>-issues` | `design_documents` | repo name |
-| Issues disabled, a sibling with a shared name prefix has issues enabled | Multi-repo | that sibling | public or private, to match this repo's visibility | the shared prefix |
+| Standard | this repo | `[]` | `design_documents_public` | repo name |
+| Closed source | `<repo>-issues` | `[]` | `design_documents` | repo name |
+| Multi-repo | ask | ask | `design_documents` if this repo is private, else `design_documents_public` | ask |
 
-To find multi-repo siblings, list the owner's repos (`gh repo list <owner> --limit 1000 --json name,visibility,hasIssuesEnabled`) and keep those that share this repo's name prefix.
+For a multi-repo project, ask for each value in turn. Skip a value that the invocation text already gives.
 
-If the signals match no row, or match more than one, or more than one sibling has issues enabled, stop and ask the user. Do not pick.
+1. The issue repo. It can be this repo.
+2. The project name.
+3. The default labels. Get the labels that exist in the issue repo with `gh label list --repo <issues.repo> --limit 1000`, and ask the user to choose from them.
 
-### 3. Choose the default labels
-
-Get the labels that exist in `issues.repo` with `gh label list --repo <issues.repo> --limit 1000`.
-Labels are managed by Terraform. Choose only from labels that already exist. Never create a label.
-
-- Standard and closed source: propose `[]`.
-- Multi-repo: propose the label that matches this repo's part of the name (`some-project-server` → `server`). If no such label exists, stop and tell the user it must be added in Terraform first.
+Labels are managed by Terraform. Never create a label. If a label the user wants does not exist, stop and tell them it must be added in Terraform first.
 
 ### 4. Validate
 
@@ -87,7 +85,7 @@ Every check is a hard failure. Stop and report the cause. There is no override.
 
 ### 5. Confirm
 
-Show the user the proposed config and how each value was worked out.
+Show the user the proposed config.
 If a config already exists, show a diff against it. If nothing has changed, say so and stop.
 Write nothing until the user confirms.
 
