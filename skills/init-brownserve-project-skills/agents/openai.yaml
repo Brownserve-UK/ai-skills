@@ -1,0 +1,5 @@
+interface:
+  display_name: Init Brownserve Project Skills
+  short_description: Write the per-repo config for the project skills
+policy:
+  allow_implicit_invocation: false
