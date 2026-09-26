@@ -1,0 +1,5 @@
+interface:
+  display_name: Plain Technical English
+  short_description: Write and check text in Plain Technical English
+policy:
+  allow_implicit_invocation: true

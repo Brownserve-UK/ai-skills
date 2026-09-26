@@ -4,7 +4,7 @@ description: >-
   Strict review of a code change for structure and design quality. Use for a
   code quality review, a design review, a maintainability review, or a code
   quality audit of a branch, pull request, or diff. Reports only Critical,
-  High, and Medium results. Writes the report in ASD-STE100.
+  High, and Medium results. Writes the report in Plain Technical English.
 disable-model-invocation: true
 ---
 
@@ -115,9 +115,10 @@ Use High or Critical only when the code shows the cost. For a structural result,
 
 ## 4. Write the report
 
-Write all report text in ASD-STE100. Obey [report language](references/report-language.md).
-Run `python3 <this skill's directory>/scripts/check_review_language.py <draft>` and correct each error.
-Do not change code identifiers, paths, commands, or quoted output.
+Load the `plain-technical-english` skill at this step, not before. If it is not available, stop and tell the user that the review needs it.
+Write all report text in Plain Technical English, with American spelling. Apply it to the report only.
+When you run its checker, add `--allow finding,findings`.
+Obey [report language](references/report-language.md).
 
 Write about the code and its effect. Do not write about the author.
 Give the condition, the behavior, and the effect. Then give the correction and its cause.
