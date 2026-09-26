@@ -28,10 +28,10 @@ The skills do not work without this file, and they never guess its values. This 
 | Field | Meaning |
 | --- | --- |
 | `version` | Config format version. Always `1`. |
-| `project` | The slug used in design document filenames (`YYYY-MM-DD-<project>.md`). In a multi-repo project, this is the product name, not the repo name. |
-| `issues.repo` | `owner/name` of the repo that holds issues for this repo. |
+| `project` | The name of the product/project. Necessary as the it may differ from the repo name. |
+| `issues.repo` | `owner/repo` of the repo that holds issues for this repo. |
 | `issues.default_labels` | Labels to apply to every issue raised from this repo. An empty array is valid. |
-| `docs.repo` | `owner/name` of the central design documents repo. |
+| `docs.repo` | `owner/repo` of the central design documents repo. |
 
 Every field is required. Write `default_labels: []` explicitly for a repo that needs none.
 
